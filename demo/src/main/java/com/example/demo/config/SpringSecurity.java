@@ -1,15 +1,20 @@
 package com.example.demo.config;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -35,7 +40,7 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .successHandler(authenticationSuccessHandler())
                                 .permitAll()
                 ).logout(
                         logout -> logout
@@ -44,11 +49,25 @@ public class SpringSecurity {
                 );
         return http.build();
     }
-
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new SimpleUrlAuthenticationSuccessHandler() {
+            @Override
+            protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response,
+                                                Authentication authentication) {
+                // Customize the target URL based on user roles
+                if (authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+                    return "/users"; // Redirect to admin page for users with ROLE_ADMIN
+                } else {
+                    return "/books"; // Redirect to user page for other users
+                }
+            }
+        };
+    }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
 }
