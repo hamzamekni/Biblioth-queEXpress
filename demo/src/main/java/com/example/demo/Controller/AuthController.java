@@ -51,7 +51,7 @@ public class AuthController {
             return "register";
         }
         userService.saveUser(user);
-        return "redirect:/register?success";
+        return "redirect:/login?success";
     }
 
     @GetMapping("/users")
