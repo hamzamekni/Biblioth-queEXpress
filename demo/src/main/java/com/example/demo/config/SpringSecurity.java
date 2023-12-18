@@ -59,8 +59,11 @@ public class SpringSecurity {
                 if (authentication.getAuthorities().stream()
                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
                     return "/users"; // Redirect to admin page for users with ROLE_ADMIN
-                } else {
+                } else if (authentication.getAuthorities().stream()
+                        .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_MEMBRE"))) {
                     return "/books"; // Redirect to user page for other users
+                }else {
+                    return "/users";
                 }
             }
         };
