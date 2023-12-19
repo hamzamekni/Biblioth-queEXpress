@@ -42,4 +42,9 @@ public class BookServiceImpl implements BooksService {
         booksDto.setAvailable(books.isAvailable());
         return booksDto;
     }
+
+    @Override
+    public void deleteBook(Long id) {
+        bookRepository.deleteById(id);
+    }
 }

@@ -26,10 +26,15 @@
         </div>
     </div>
 </nav>
+<div class="row">
+    <h1> All Books </h1>
+</div>
+<div class="card">
+    <div class="card-body">
+        <button type="button" style="margin-left: 100px; margin-bottom: 10px" class="btn btn-primary">Add Book</button>
+
 <div class="container">
-    <div class="row">
-        <h1> All Books </h1>
-    </div>
+
     <table class="table table-striped table-bordered table-hover">
         <thead class="table-dark">
         <tr>
@@ -40,20 +45,41 @@
             <th>Price</th>
             <th>Available</th>
             <th>ISBN Number</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="book: ${books}">
-            <td th:text="${book.id}"></td>
-            <td th:text="${book.title}"></td>
-            <td th:text="${book.author}"></td>
-            <td th:text="${book.date_pub}"></td>
-            <td th:text="${book.price}"></td>
-            <td th:text="${book.available}"></td>
-            <td th:text="${book.isbn_num}"></td>
+            <form th:action="@{'/books/' + ${book.id}}" method="post" onsubmit="return confirm('Are you sure you want to delete this book?')">
+                <input type="hidden" name="_method" value="delete" />
+                <td th:text="${book.id}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.date_pub}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.available}"></td>
+                <td th:text="${book.isbn_num}"></td>
+                <td>
+                    <button type="button"  class="btn btn-primary">Update</button>
+
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </td>
+            </form>
         </tr>
         </tbody>
     </table>
 </div>
+    </div>
+</div>
 </body>
 </html>
+<script th:inline="javascript">
+    function deleteBookConfirmation() {
+        var confirmDelete = confirm('Are you sure you want to delete this book?');
+        if (confirmDelete) {
+            var form = document.getElementById('deleteForm');
+            form.submit();
+            alert('Book deleted successfully!');
+        }
+    }
+</script>

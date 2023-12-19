@@ -12,4 +12,6 @@ public interface BooksService {
     User findById(String Id);
 
     List<BooksDto> findAllBooks();
+
+    void deleteBook(Long id);
 }
