@@ -29,6 +29,7 @@ public class AuthController {
     @GetMapping("/login")
     public String loginForm() { return "login"; }
 
+
     // handler method to handle user registration request
     @GetMapping("register")
     public String showRegistrationForm(Model model){
@@ -51,7 +52,7 @@ public class AuthController {
             return "register";
         }
         userService.saveUser(user);
-        return "redirect:/login?success";
+        return "redirect:/register?success";
     }
 
     @GetMapping("/users")
