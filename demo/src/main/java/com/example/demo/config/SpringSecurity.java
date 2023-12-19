@@ -37,9 +37,12 @@ public class SpringSecurity {
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
+                                .requestMatchers("/memberBooks").hasRole("MEMBRE")
                                 .requestMatchers(HttpMethod.DELETE, "/books/**").hasRole("BIBLIOTHECAIRE")
                                 .requestMatchers(HttpMethod.POST, "/books/**").hasRole("BIBLIOTHECAIRE")
-                                .requestMatchers("/books").hasAnyRole("MEMBRE", "BIBLIOTHECAIRE")
+                                .requestMatchers("/books").hasAnyRole("ADMIN", "BIBLIOTHECAIRE")
+                                .requestMatchers("/addBooks").hasRole("BIBLIOTHECAIRE")
+
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")
@@ -65,9 +68,9 @@ public class SpringSecurity {
                     return "/users"; // Redirect to admin page for users with ROLE_ADMIN
                 } else if (authentication.getAuthorities().stream()
                         .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_MEMBRE"))) {
-                    return "/books"; // Redirect to user page for other users
+                    return "/memberBooks"; // Redirect to user page for other users
                 }else {
-                    return "/users";
+                    return "/books";
                 }
             }
         };

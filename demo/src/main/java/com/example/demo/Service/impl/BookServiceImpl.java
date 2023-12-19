@@ -1,6 +1,7 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Entity.Books;
+import com.example.demo.Entity.Role;
 import com.example.demo.Entity.User;
 import com.example.demo.Repository.BookRepository;
 import com.example.demo.Service.BooksService;
@@ -8,6 +9,7 @@ import com.example.demo.dto.BooksDto;
 import com.example.demo.dto.UserDto;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -17,13 +19,24 @@ public class BookServiceImpl implements BooksService {
     public BookServiceImpl(BookRepository bookRepository){ this.bookRepository=bookRepository; }
     @Override
     public void saveBook(BooksDto booksDto) {
+        Books books = new Books();
 
+        books.setAuthor(booksDto.getAuthor());
+        books.setTitle(booksDto.getTitle());
+        books.setDate_pub(booksDto.getDate_pub());
+        books.setAvailable(booksDto.isAvailable());
+        books.setPrice(booksDto.getPrice());
+        books.setIsbn_num(booksDto.getIsbn_num());
+
+        bookRepository.save(books);
     }
 
     @Override
-    public User findById(String Id) {
+    public Books findById(Long Id) {
         return null;
     }
+
+
 
     @Override
     public List<BooksDto> findAllBooks() {
