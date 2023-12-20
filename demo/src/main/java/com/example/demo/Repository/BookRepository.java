@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface BookRepository extends JpaRepository<Books, Long> {
-    Optional<Books> findById(Long Id);
+public interface BookRepository extends JpaRepository<Books, String> {
+    Books findById(Long id);
     void deleteById(Long id);
 }

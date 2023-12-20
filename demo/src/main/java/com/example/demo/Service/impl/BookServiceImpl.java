@@ -1,15 +1,11 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Entity.Books;
-import com.example.demo.Entity.Role;
-import com.example.demo.Entity.User;
 import com.example.demo.Repository.BookRepository;
 import com.example.demo.Service.BooksService;
 import com.example.demo.dto.BooksDto;
-import com.example.demo.dto.UserDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 @Service
@@ -32,10 +28,15 @@ public class BookServiceImpl implements BooksService {
     }
 
     @Override
-    public Books findById(Long Id) {
-        return null;
+    public Books findById(Long id) {
+        Books books = bookRepository.findById(id);
+        return books;
     }
 
+    @Override
+    public BooksDto findByIdd(Long Id) {
+        return null;
+    }
 
 
     @Override
@@ -60,4 +61,18 @@ public class BookServiceImpl implements BooksService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
+
+    @Override
+    public void updateBook(Long id, BooksDto updatedBook) {
+        Books books = bookRepository.findById(id);
+            books.setAuthor(updatedBook.getAuthor());
+            books.setTitle(updatedBook.getTitle());
+            books.setAvailable(updatedBook.isAvailable());
+            books.setPrice(updatedBook.getPrice());
+            books.setIsbn_num(updatedBook.getIsbn_num());
+            books.setDate_pub(updatedBook.getDate_pub());
+            bookRepository.save(books);
+
+    }
+
 }

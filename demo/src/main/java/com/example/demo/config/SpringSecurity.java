@@ -41,7 +41,9 @@ public class SpringSecurity {
                                 .requestMatchers(HttpMethod.DELETE, "/books/**").hasRole("BIBLIOTHECAIRE")
                                 .requestMatchers(HttpMethod.POST, "/books/**").hasRole("BIBLIOTHECAIRE")
                                 .requestMatchers("/books").hasAnyRole("ADMIN", "BIBLIOTHECAIRE")
-                                .requestMatchers("/addBooks").hasRole("BIBLIOTHECAIRE")
+                                .requestMatchers("/addBook").hasRole("BIBLIOTHECAIRE")
+                                .requestMatchers("/updateBooks/**").hasRole("BIBLIOTHECAIRE")
+                                .requestMatchers("/updateBooks").hasRole("BIBLIOTHECAIRE")
 
                 ).formLogin(
                         form -> form

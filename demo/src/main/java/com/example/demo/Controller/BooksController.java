@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BooksController {
@@ -54,5 +55,21 @@ public class BooksController {
         BooksDto booksDto = new BooksDto();
         model.addAttribute("books", booksDto);
         return "addBook";
+    }
+
+    @GetMapping("/Book/{id}")
+    public String showUpdateBookForm(@PathVariable("id") Long id, Model model) {
+        Books book = booksService.findById(id);
+        model.addAttribute("book", book);
+        return "updateBook";
+    }
+    @PreAuthorize("hasRole('BIBLIOTHECAIRE')")
+    @PostMapping("/updateBooks")
+    public String updateBook(@ModelAttribute("book") BooksDto updatedBook, RedirectAttributes redirectAttributes) {
+        // Extract the ID from the updatedBook if needed
+        Long id = updatedBook.getId();
+        booksService.updateBook(id, updatedBook);
+        redirectAttributes.addFlashAttribute("updateSuccess", true);
+        return "redirect:/books";
     }
 }

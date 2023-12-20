@@ -61,8 +61,9 @@
                 <td th:text="${book.available}"></td>
                 <td th:text="${book.isbn_num}"></td>
                 <td>
-                    <button type="button"  class="btn btn-primary">Update</button>
-
+                    <a th:href="@{/Book/{id}(id=${book.id})}">
+                        <button type="button" class="btn btn-primary">Update Book</button>
+                    </a>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </td>
             </form>
