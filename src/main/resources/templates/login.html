@@ -1,0 +1,294 @@
+<!--  <!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Bibliothèque EXpress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Bibliothèque EXpress</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<br />
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Invalid Email and Password.</div>
+            </div>
+          <div th:if="${param.logout}">
+                <div class="alert alert-success">You have been logged out.</div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Login Form</h3>
+                </div>
+                <div class="card-body">
+                    <form
+                            method="post"
+                            th:action="@{/login}"
+                            class="form-horizontal"
+                            role="form"
+                    >
+                        <div class="mb-3">
+                            <label for="username" class="control-label">Email *</label>
+                            <input type="text"
+                                   id="username"
+                                   name="username"
+                                   class="form-control"
+                                   placeholder="Email"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="control-label">Password *</label>
+                            <input type="password"
+                                   id="password"
+                                   name="password"
+                                   class="form-control"
+                                   placeholder="Password"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                            <span> Not registered?
+                            <a th:href="@{/register}"> Register/SignUp Here</a>
+                        </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Bibliotheque express</title>
+    <link th:href="@{login.css}" rel="stylesheet" >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=]ost:wght@500&display=swap" rel="stylesheet">
+</head>
+<style>
+    body {
+        margin :-10px !important;
+        padding:-10px !important;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh ;
+        font-family: 'Jost' , sans-serif ;
+        background: linear-gradient(to bottom, #0f0c29 , #302b63 , #24243e);
+    }
+    .main {
+        width: 450px;
+        height: 500px;
+        background:#eee;
+
+        /* background: url("/assets/images/2.jpg") no-repeat center / cover;
+        border-radius: 17px ; */
+        box-shadow: 10px 25px 50px #0000;
+        border-radius: 60%/10%;
+    }
+
+    #chk {
+        display:none ;
+    }
+    .signup {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+    label {
+        color: #fff;
+        font-size: 2.3em;
+        justify-content: center;
+        display: flex;
+        margin: 40px;
+        font-weight: bold;
+        cursor:pointer;
+        transition: .5s ease-in-out;
+    }
+    input {
+        width: 90%;
+        height: 30px;
+        background: #e0dede;
+        justify-content: center;
+        display: flex;
+        margin: 20px auto;
+        padding: 10px;
+        border:none;
+        outline: none;
+        border-radius: 5px;
+    }
+
+    button {
+        width: 100px;
+        height: 45px;
+        margin: 15px auto ;
+        justify-content: center;
+        display: block;
+        color: #fff;
+        background: #573b8a;
+        font-size: 1em;
+        font-weight: bold;
+        margin-top: 20px;
+        outline: none;
+        border: none;
+        border-radius: 5px ;
+        transition: .2s ease-in;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background:#6d44b8;
+    }
+    .login{
+        height: 470px;
+        width: 520px;
+        background:#eee;
+        border-radius: 60%/10%;
+        transform: translateX(-180px);
+        transition: .8s ease-in-out;
+        margin-left: 160px;
+        /* background: url("/assets/images/2.jpg") no-repeat center / cover;
+         border-radius: 17px ; */
+    }
+    .login label{
+        color: #573b8a;
+        transform: scale(.6);
+    }
+    .signup label{
+        color: #573b8a;
+        transform: scale(.6);
+    }
+    #chk:checked ~ .login {
+        transform:translateY(-500px)
+    }
+
+    #chk:checked ~ .login label {
+        transform: scale(1);
+    }
+    #chk:checked ~ .signup label {
+        transform: scale(.6);
+
+    }
+    .lg {
+        margin-top: 70px;
+    }
+    .bottom {
+        text-align: center;
+        font-weight: bold;
+        color : dimgray;
+        font-family: 'Jost' , sans-serif ;
+        font-size: 12px;
+    }
+    #check {
+        width: 15px;
+        height: 15px;
+    }
+    .aa{
+        color : dimgray;
+        font-size: 11px;
+    }
+    .bb{
+        color: #573b8a;
+        font-size: 11px;
+    }
+    .picc {
+        height: 150px;
+        width: 100px;
+    }
+
+</style>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:fragment="header">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Bibliothèque EXpress</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<br />
+<br />
+<br />
+
+<div class="login">
+ <div class="col-md-6 offset-md-3">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Invalid Email and Password.</div>
+            </div>
+          <div th:if="${param.logout}">
+                <div class="alert alert-success">You have been logged out.</div>
+            </div>
+    <form class="lg form-horizontal" method="post" th:action="@{/login}" role="form">
+        <label for="chk" aria-hidden="true">Login</label>
+        <input type="email"   name="username" placeholder="Email" required="">
+        <input type="Password"   name="password" placeholder="Password" required="">
+        <button type="submit" > Login </button>
+
+        <div class="bottom">
+            <p for="check"> Not Registered? <a class="bb" th:href="@{/register}"> Sign up Here</a></p>
+            <a class="aa" href="forgotpassword">Forget Password ?</a>
+        </div>
+    </form>
+</div>
+</div>
+
+<div class="pic">
+    <div class="picc">
+        <img th:src="@{books.png}" alt="books picture" />
+    </div>
+</div>
+
+</body>
+</html>
+
+<!--
+<div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true">
+    <div class="signup">
+        <form>
+            <label for="chk" aria-hidden="true">Sign up</label>
+            <input type="text" name="txt" placeholder="Username" required="">
+            <input type="email" name="email" placeholder="Email" required="">
+            <input type="Password" name="pswd" placeholder="Password" required="">
+            <input type="text" name="phone" placeholder="Phone" required="">
+            <input type="text" name="adresse" placeholder="Adresse" required="">
+
+            <button> Sign up</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+-->
+
+
+
