@@ -94,7 +94,6 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         // Remove associated roles first
         removeUserRoles(id);
-
         // Then delete the user
         userRepository.deleteById(id);
     }
@@ -105,5 +104,11 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             user.getRoles().clear();
         }
+    }
+
+    @Override
+    public List<UserDto> searchUsersByNameOrEmail(String keyword) {
+        List<User> users = userRepository.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(keyword, keyword);
+        return users.stream().map(this::convertEntityToDto).collect(Collectors.toList());
     }
 }

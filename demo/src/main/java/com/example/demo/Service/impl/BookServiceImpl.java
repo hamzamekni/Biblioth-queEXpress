@@ -75,4 +75,10 @@ public class BookServiceImpl implements BooksService {
 
     }
 
+    @Override
+    public List<BooksDto> searchBooksByTitleOrAuthor(String keyword) {
+        List<Books> books = bookRepository.findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(keyword, keyword);
+        return books.stream().map(this::convertEntityToDto).collect(Collectors.toList());
+    }
+
 }

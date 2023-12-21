@@ -23,11 +23,24 @@ public class BooksController {
 
     public BooksController(BooksService booksService){ this.booksService = booksService; }
     @GetMapping("/books")
-    public String listRegisteredBooks(Model model){
-        List<BooksDto> books = booksService.findAllBooks();
+    public String listRegisteredBooks(@RequestParam(name = "search", required = false) String search,
+                                      Model model) {
+        List<BooksDto> books;
+
+        if (search != null && !search.isEmpty()) {
+            // If search parameter is present, perform search
+            books = booksService.searchBooksByTitleOrAuthor(search);
+        } else {
+            // Otherwise, list all books
+            books = booksService.findAllBooks();
+        }
+
         model.addAttribute("books", books);
+        model.addAttribute("search", search);
+
         return "books";
     }
+
     @PreAuthorize("hasRole('BIBLIOTHECAIRE')")
     @RequestMapping(value = "/books/{id}", method = {RequestMethod.DELETE, RequestMethod.POST})
     public String  deleteBook(@PathVariable("id") Long id, RedirectAttributes redirectAttributes){

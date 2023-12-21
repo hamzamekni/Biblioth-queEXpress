@@ -40,7 +40,7 @@ public class SpringSecurity {
                                 .requestMatchers("/users/**").hasRole("ADMIN")
                                 .requestMatchers("/updateUser/**").hasRole("ADMIN")
                                 .requestMatchers("/updateUser").hasRole("ADMIN")
-                                .requestMatchers("/memberBooks").hasRole("MEMBRE")
+                                .requestMatchers("/memberBooks/**").hasRole("MEMBRE")
                                 .requestMatchers(HttpMethod.DELETE, "/books/**").hasRole("BIBLIOTHECAIRE")
                                 .requestMatchers(HttpMethod.POST, "/books/**").hasRole("BIBLIOTHECAIRE")
                                 .requestMatchers("/books").hasAnyRole("ADMIN", "BIBLIOTHECAIRE")

@@ -58,9 +58,21 @@ public class AuthController {
     }
 
     @GetMapping("/users")
-    public String listRegisteredUsers(Model model){
-        List<UserDto> users = userService.findAllUsers();
+    public String listRegisteredUsers(@RequestParam(name = "search", required = false) String search,
+                                      Model model){
+        List<UserDto> users;
+
+        if (search != null && !search.isEmpty()) {
+            // If search parameter is present, perform search
+            users = userService.searchUsersByNameOrEmail(search);
+        } else {
+            // Otherwise, list all users
+            users = userService.findAllUsers();
+        }
+
         model.addAttribute("users", users);
+        model.addAttribute("search", search);
+
         return "users";
     }
 
