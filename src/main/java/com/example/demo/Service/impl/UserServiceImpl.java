@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         //encrypt the password once we integrate spring security
         //user.setPassword(userDto.getPassword());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Role role = roleRepository.findByName("ROLE_MEMBRE");
+        Role role = roleRepository.findByName("ROLE_BIBLIOTHECAIRE");
         if(role == null){
             role = checkRoleExist();
         }
