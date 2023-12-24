@@ -6,204 +6,18 @@
     <meta charset="UTF-8">
     <title>Bibliothèque EXpress</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=]ost:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" >
+    <link th:href="@{/styles/register.css}" rel="stylesheet" >
+    <link th:href="@{/styles/users.css}" rel="stylesheet" >
 </head>
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        text-decoration: none;
-        list-style: none;
-        box-sizing: border-box;
-    }
-    body {
-        justify-content: center;
-        min-height: 100vh ;
-        font-family: 'Poppins', sans-serif;
 
-    }
-    /* this is css for navbar */
-    ul li .ls{
-        text-decoration: none !important;
-        color: #573b8a !important;
-        font-weight: bold;
-        display: inline-block;
-        color: #0f0c29;
-        padding: 5px 5px;
-        background: #e3f2fd;
-        border-radius: 5px;
-    }
-
-    header {
-        background: #fff;
-        width: 100%;
-        height: 70px;
-        align-items: center;
-        justify-content: space-between;
-    }
-    header .logo {
-        font-size: 30px;
-        text-transform: uppercase;
-        margin-left: 30px;
-        color: #e3f2fd !important;
-    }
-    header nav ul {
-        display: flex;
-    }
-    header nav ul li a {
-        text-decoration: none;
-        display: inline-block;
-        color: #e3f2fd !important;
-        padding: 5px 0;
-        margin: 0 10px;
-        border: 3px solid transparent;
-        transition: 0.2s;
-    }
-    header nav ul li a:hover,
-    header nav ul li a.active {
-        /* border-bottom-color: dodgerblue; */
-        border-bottom-color: #e3f2fd;
-    }
-    .hamburger {
-        cursor: pointer;
-        display: none;
-    }
-    .hamburger div {
-        width: 30px;
-        height: 3px;
-        margin: 5px 0;
-        background: #000;
-    }
-    @media only screen and (max-width: 900px) {
-        header {
-            padding: 0 30px;
-        }
-    }
-    @media only screen and (max-width: 700px) {
-        .hamburger {
-            display: block;
-        }
-
-        header nav {
-            position: absolute;
-            width: 100%;
-            left: -100%;
-            top: 70px;
-            width: 100%;
-            background: #fff;
-            padding: 30px;
-            transition: 0.3s;
-        }
-
-        header #nav_check:checked ~ nav {
-            left: 0;
-        }
-
-        header nav ul {
-            display: block;
-        }
-
-        header nav ul li a {
-            margin: 5px 0;
-        }
-    }
-
-
-        /* here's the css table 1 */
-
-    .styled-table {
-        border-collapse: collapse;
-        margin: 25px 0;
-        font-size: 1.2em;
-        font-family: sans-serif;
-        width: 100%;
-        min-width: 400px;
-        box-shadow: #e3f2fd
-        /*  box-shadow: 0 0 20px rgba(15, 15, 15, 0.15); */
-    }
-
-    .styled-table thead tr {
-        background-color: #e3f2fd /*#009879*/;
-        color: #ffffff;
-        text-align: left;
-        text-transform: uppercase;
-    }
-    .styled-table th,
-    .styled-table td {
-        padding: 12px 15px;
-        color: #100c0c;
-    }
-    .styled-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-    }
-
-    .styled-table tbody tr:nth-of-type(even) {
-       /* background-color: #f3f3f3; */
-    }
-
-    .styled-table tbody tr:last-of-type {
-        border-bottom: 2px solid #009879;
-    }
-
-    .styled-table tbody tr.active-row {
-
-        color: #009879;
-    }
-    .pap {
-       padding-left: 90px !important;
-        background-color:#FFFFFF;
-        font-size: 30px;
-        font-weight:normal;
-    }
-    .edit{
-        text-decoration: none !important;
-    }
-    .move{
-        background-color: #6d44b8 !important;
-        border-color: #FFFFFF !important;
-    }
-
-</style>
 <body>
-<header>
-    <nav class="navbar navbar-light" style="background-color: #573b8a;" th:fragment="header">
-        <div class="logo" th:href="@{/}"  >Bibliothèque EXpress</div>
-        <input type="checkbox" id="nav_check" hidden>
-        <ul>
-            <li>
-                <a> <i class="fa-solid fa-house"></i>      Home</a>
-            </li>
-            <li>
-                <a ><i class="fa-solid fa-bell" ></i>      Notifications</a>
-            </li>
-            <li>
-                <a><i class="fa-solid fa-book"></i>      Books</a>
-            </li>
-            <li>
-                <a> <i class="fa-solid fa-chart-line"></i>      Statistique</a>
-            </li>
-            <li>
-                <a><i class="fa-solid fa-user"></i>      My account</a>
-            </li>
-            <li>
-                    <a class="ls" aria-current="page" th:href="@{/logout}">Logout</a>
-            </li>
-        </ul>
-
-    </nav>
-    <label for="nav_check" class="hamburger">
-        <div></div>
-        <div></div>
-        <div></div>
-    </label>
-</header>
-
-
+<div th:include="components/navbar :: header" ></div>
 
 <div class="container">
     <table class="styled-table table-hover">
@@ -212,7 +26,7 @@
             <th><i class="fa-solid fa-user"></i>   First Name</th>
             <th><i class="fa-regular fa-user"></i>  Last Name</th>
             <th><i class="fa-solid fa-envelope"></i>     Email</th>
-            <th>Rank</th>
+            <th>Role</th>
 
             <th> <i class="fa-solid fa-gear fa-bounce"></i>         Settings</th>
         </tr>
