@@ -1,18 +1,28 @@
 package com.example.demo.Service.impl;
 
 import com.example.demo.Entity.Books;
+import com.example.demo.Entity.Categorie;
 import com.example.demo.Repository.BookRepository;
+import com.example.demo.Repository.CategorieRepository;
 import com.example.demo.Service.BooksService;
 import com.example.demo.dto.BooksDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Service
 public class BookServiceImpl implements BooksService {
+    @Autowired
+    private CategorieRepository categorieRepository;
     private BookRepository bookRepository;
 
-    public BookServiceImpl(BookRepository bookRepository){ this.bookRepository=bookRepository; }
+    public BookServiceImpl(BookRepository bookRepository, CategorieRepository categorieRepository ){
+        this.bookRepository=bookRepository;
+        this.categorieRepository=categorieRepository;
+    }
     @Override
     public void saveBook(BooksDto booksDto) {
         Books books = new Books();
@@ -23,7 +33,12 @@ public class BookServiceImpl implements BooksService {
         books.setAvailable(booksDto.isAvailable());
         books.setPrice(booksDto.getPrice());
         books.setIsbn_num(booksDto.getIsbn_num());
+        List<Categorie> categories = booksDto.getCategorieIds().stream()
+                .map(categoryId -> categorieRepository.findById(categoryId).orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
+        books.setCategories(categories);
         bookRepository.save(books);
     }
 
@@ -42,8 +57,19 @@ public class BookServiceImpl implements BooksService {
     @Override
     public List<BooksDto> findAllBooks() {
         List<Books> books = bookRepository.findAll();
-        return books.stream().map((book) -> convertEntityToDto(book))
+        return books.stream().map(this::convertEntityToDtoWithCategorieNames).collect(Collectors.toList());
+    }
+
+    private BooksDto convertEntityToDtoWithCategorieNames(Books books){
+        BooksDto booksDto = convertEntityToDto(books);
+
+        // Populate categorie names
+        List<String> categorieNames = books.getCategories().stream()
+                .map(Categorie::getName)
                 .collect(Collectors.toList());
+        booksDto.setCategorieNames(categorieNames);
+
+        return booksDto;
     }
     private BooksDto convertEntityToDto(Books books){
         BooksDto booksDto = new BooksDto();
@@ -65,15 +91,23 @@ public class BookServiceImpl implements BooksService {
     @Override
     public void updateBook(Long id, BooksDto updatedBook) {
         Books books = bookRepository.findById(id);
-            books.setAuthor(updatedBook.getAuthor());
-            books.setTitle(updatedBook.getTitle());
-            books.setAvailable(updatedBook.isAvailable());
-            books.setPrice(updatedBook.getPrice());
-            books.setIsbn_num(updatedBook.getIsbn_num());
-            books.setDate_pub(updatedBook.getDate_pub());
-            bookRepository.save(books);
+        books.setAuthor(updatedBook.getAuthor());
+        books.setTitle(updatedBook.getTitle());
+        books.setAvailable(updatedBook.isAvailable());
+        books.setPrice(updatedBook.getPrice());
+        books.setIsbn_num(updatedBook.getIsbn_num());
+        books.setDate_pub(updatedBook.getDate_pub());
+        List<Categorie> updatedCategories = null;
+        if (updatedBook.getCategorieIds() != null) {
+            // Update categories
+            updatedCategories = categorieRepository.findAllById(updatedBook.getCategorieIds());
+            books.setCategories(updatedCategories);
+        }
+        books.setCategories(updatedCategories);
+        bookRepository.save(books);
 
     }
+
 
     @Override
     public List<BooksDto> searchBooksByTitleOrAuthor(String keyword) {

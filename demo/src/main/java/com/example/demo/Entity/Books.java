@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,5 +33,11 @@ public class Books {
     private boolean available;
     @Column(nullable=false)
     private int isbn_num;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "books_categories",
+            joinColumns = {@JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CATEGORIE_ID", referencedColumnName = "ID")})
+    private List<Categorie> categories = new ArrayList<>();
 
 }

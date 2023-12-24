@@ -1,27 +1,41 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Entity.Books;
-import com.example.demo.Entity.User;
+import com.example.demo.Entity.Categorie;
+import com.example.demo.Repository.CategorieRepository;
 import com.example.demo.Service.BooksService;
+import com.example.demo.Service.CategorieService;
+import com.example.demo.Service.impl.CategorieServiceImpl;
 import com.example.demo.dto.BooksDto;
-import com.example.demo.dto.UserDto;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 
 @Controller
 public class BooksController {
     private BooksService booksService;
+    @Autowired
+    private CategorieServiceImpl categorieService;
+    @Autowired
+    private CategorieRepository categorieRepository;
 
-    public BooksController(BooksService booksService){ this.booksService = booksService; }
+    private static final Logger logger = LoggerFactory.getLogger(BooksController.class);
+
+    public BooksController(BooksService booksService, CategorieRepository categorieRepository){
+        this.booksService = booksService;
+        this.categorieRepository=categorieRepository;
+
+    }
     @GetMapping("/books")
     public String listRegisteredBooks(@RequestParam(name = "search", required = false) String search,
                                       Model model) {
@@ -66,6 +80,8 @@ public class BooksController {
     @GetMapping("/addBook")
     public String showAddBookForm(Model model){
         BooksDto booksDto = new BooksDto();
+        List<Categorie> allCategories = categorieRepository.findAll();
+        model.addAttribute("allCategories", allCategories);
         model.addAttribute("books", booksDto);
         return "addBook";
     }
@@ -73,14 +89,16 @@ public class BooksController {
     @GetMapping("/Book/{id}")
     public String showUpdateBookForm(@PathVariable("id") Long id, Model model) {
         Books book = booksService.findById(id);
+        List<Categorie> allCategories = categorieService.getAllCategories();
         model.addAttribute("book", book);
+        model.addAttribute("allCategories", allCategories);
         return "updateBook";
     }
     @PreAuthorize("hasRole('BIBLIOTHECAIRE')")
     @PostMapping("/updateBooks")
     public String updateBook(@ModelAttribute("book") BooksDto updatedBook, RedirectAttributes redirectAttributes) {
-        // Extract the ID from the updatedBook if needed
         Long id = updatedBook.getId();
+
         booksService.updateBook(id, updatedBook);
         redirectAttributes.addFlashAttribute("updateSuccess", true);
         return "redirect:/books";

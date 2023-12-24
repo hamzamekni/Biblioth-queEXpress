@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,4 +30,6 @@ public class BooksDto {
     private boolean available;
     @NotEmpty
     private int isbn_num;
+    private List<Long> categorieIds;
+    private List<String> categorieNames;
 }
