@@ -14,15 +14,25 @@
     <link th:href="@{/styles/users.css}" rel="stylesheet" >
 </head>
 <body>
-<div th:include="components/navbar :: header" ></div>
-<div class="container mt-4">
-    <div class="card" style="max-width: 400px;">
+<div th:include="components/navbar :: header"></div>
+<div class="container mt-4 d-flex">
+
+    <div class="card" style="width: 400px; margin-right: 10px;">
         <div class="card-body">
-            <h5 class="card-title">Categories Chart</h5>
-            <canvas id="myPolarAreaChart" width="100" height="100"></canvas>
+            <h5 class="card-title">Categories Chart 1</h5>
+            <canvas id="myPolarAreaChart1" width="400" height="400"></canvas>
         </div>
     </div>
+
+    <div class="card" style="width: 400px;">
+        <div class="card-body">
+            <h5 class="card-title">Loan Chart</h5>
+            <canvas id="myPolarAreaChart2" width="400" height="400"></canvas>
+        </div>
+    </div>
+
 </div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script th:inline="javascript">
@@ -45,7 +55,7 @@
     console.log('Labels:', labels);
     console.log('Data:', data);
 
-    const config = {
+    const config1 = {
         type: 'polarArea',
         data: {
             labels: labels,
@@ -64,13 +74,54 @@
         options: {}
     };
 
-    // Ensure that the document is ready before initializing the chart
+    // Ensure that the document is ready before initializing the first chart
     document.addEventListener('DOMContentLoaded', function () {
-        const ctx = document.getElementById('myPolarAreaChart').getContext('2d');
-        new Chart(ctx, config);
+        const ctx1 = document.getElementById('myPolarAreaChart1').getContext('2d');
+        new Chart(ctx1, config1);
+    });
+
+    // Second chart variables
+    const labels2 = ['August', 'September', 'October', 'November', 'December'];
+    const data2 = [20, 30, 40, 10, 50];
+
+    const config2 = {
+        type: 'bar',
+        data: {
+            labels: labels2,
+            datasets: [{
+                label: 'Loaned Books in that month',
+                data: data2,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 205, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 159, 64)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(54, 162, 235)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    // Ensure that the document is ready before initializing the second chart
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx2 = document.getElementById('myPolarAreaChart2').getContext('2d');
+        new Chart(ctx2, config2);
     });
 </script>
-
-
 </body>
 </html>
