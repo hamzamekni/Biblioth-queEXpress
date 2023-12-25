@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 @Service
@@ -102,6 +104,21 @@ public class BookServiceImpl implements BooksService {
         }
     }
 
+    @Override
+    public Map<String, Long> getCategoryStatistics() {
+        List<Books> allBooks = bookRepository.findAll();
+
+        Map<String, Long> categoryStatistics = new HashMap<>();
+
+        // Count books for each category
+        for (Books book : allBooks) {
+            for (Categorie categorie : book.getCategories()) {
+                categoryStatistics.merge(categorie.getName(), 1L, Long::sum);
+            }
+        }
+
+        return categoryStatistics;
+    }
 
 
     @Override

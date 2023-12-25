@@ -36,6 +36,7 @@ public class SpringSecurity {
                 .authorizeRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/index").permitAll()
+                                .requestMatchers("/statistique").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
                                 .requestMatchers("/users/**").hasRole("ADMIN")
                                 .requestMatchers("/updateUser/**").hasRole("ADMIN")
