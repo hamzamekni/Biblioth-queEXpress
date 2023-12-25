@@ -1,0 +1,14 @@
+.move{
+    background-color: #6d44b8 !important;
+    border-color: #FFFFFF !important;
+    color: white !important;
+    padding: 10px;
+    height: 50px !important;
+    width: 40% !important;
+}
+
+.updatelabelb{
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+
+}
