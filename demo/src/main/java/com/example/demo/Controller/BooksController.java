@@ -96,9 +96,9 @@ public class BooksController {
     }
     @PreAuthorize("hasRole('BIBLIOTHECAIRE')")
     @PostMapping("/updateBooks")
-    public String updateBook(@ModelAttribute("book") BooksDto updatedBook, RedirectAttributes redirectAttributes) {
+    public String updateBook(@ModelAttribute("book") BooksDto updatedBook, @RequestParam(name = "selectedCategories", required = false) List<Long> selectedCategories, RedirectAttributes redirectAttributes) {
         Long id = updatedBook.getId();
-
+        updatedBook.setCategorieIds(selectedCategories);
         booksService.updateBook(id, updatedBook);
         redirectAttributes.addFlashAttribute("updateSuccess", true);
         return "redirect:/books";

@@ -85,25 +85,48 @@ public class BookServiceImpl implements BooksService {
 
     @Override
     public void deleteBook(Long id) {
-        bookRepository.deleteById(id);
+
+        Books books = bookRepository.findById(id);
+
+        if (books != null) {
+            // Remove the book from categories to avoid cascading issues
+            for (Categorie categorie : books.getCategories()) {
+                categorie.getBooks().remove(books);
+            }
+
+            // Clear the categories from the book
+            books.getCategories().clear();
+
+            // Delete the book
+            bookRepository.delete(books);
+        }
     }
+
+
 
     @Override
     public void updateBook(Long id, BooksDto updatedBook) {
         Books books = bookRepository.findById(id);
+
         books.setAuthor(updatedBook.getAuthor());
         books.setTitle(updatedBook.getTitle());
         books.setAvailable(updatedBook.isAvailable());
         books.setPrice(updatedBook.getPrice());
         books.setIsbn_num(updatedBook.getIsbn_num());
         books.setDate_pub(updatedBook.getDate_pub());
+        // Update categories
+        System.out.println(categorieRepository.findAllById(updatedBook.getCategorieIds()));
         List<Categorie> updatedCategories = null;
         if (updatedBook.getCategorieIds() != null) {
-            // Update categories
             updatedCategories = categorieRepository.findAllById(updatedBook.getCategorieIds());
-            books.setCategories(updatedCategories);
         }
-        books.setCategories(updatedCategories);
+
+        // Clear existing associations and add new ones
+        books.getCategories().clear();
+        if (updatedCategories != null) {
+            books.getCategories().addAll(updatedCategories);
+        }
+
         bookRepository.save(books);
 
     }
