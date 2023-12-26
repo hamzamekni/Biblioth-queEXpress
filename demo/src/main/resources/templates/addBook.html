@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Bibliothèque EXpress</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet" >
+    <link th:href="@{/styles/addbook.css}" rel="stylesheet" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=]ost:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+<body>
+<div th:include="components/navbar :: header" ></div>
+
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div class="card">
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've successfully added a book</div>
+            </div>
+            <div class="card-header">
+                <h2 class="text-center">Add Book</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" role="form" th:action="@{/addBook}" th:object="${books}">
+
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabelb text-dark justify-content-start m-0">Title</label>
+                        <input class="form-control"
+                               id="title"
+                               name="title"
+                               placeholder="Mein Kampf"
+                               th:field="*{title}"
+                               type="text"
+                        />
+                        <p th:errors="*{title}" class="text-danger"
+                           th:if="${#fields.hasErrors('title')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabelb text-dark justify-content-start m-0">Author</label>
+                        <input class="form-control"
+                               id="author"
+                               name="author"
+                               placeholder="Hitler"
+                               th:field="*{author}"
+                               type="text"
+                        />
+                        <p th:errors="*{author}" class="text-danger"
+                           th:if="${#fields.hasErrors('author')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabelb text-dark justify-content-start m-0">The Date of Publication</label>
+                        <input class="form-control"
+                               id="date_pub"
+                               name="date_pub"
+                               placeholder="20-10-1925"
+                               th:field="*{date_pub}"
+                               type="date"
+                        />
+                        <p th:errors="*{date_pub}" class="text-danger"
+                           th:if="${#fields.hasErrors('date_pub')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabelb text-dark justify-content-start m-0">Price</label>
+                        <input class="form-control"
+                               id="price"
+                               name="price"
+                               placeholder="200$"
+                               th:field="*{price}"
+                               type="number"
+                        />
+                        <p th:errors="*{price}" class="text-danger"
+                           th:if="${#fields.hasErrors('price')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabelb text-dark justify-content-start m-0">ISBN Number</label>
+                        <input class="form-control"
+                               id="isbn_num"
+                               name="isbn_num"
+                               placeholder="978077476077"
+                               th:field="*{isbn_num}"
+                               type="number"
+                        />
+                        <p th:errors="*{price}" class="text-danger"
+                           th:if="${#fields.hasErrors('price')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabelb text-dark justify-content-start m-0">Available</label>
+                        <input class="form-control"
+                               id="available"
+                               name="available"
+                               placeholder="'0' => Book Not Available '1' => Book Available"
+                               th:field="*{available}"
+                               type="number"
+                               max="1"
+                               min="0"
+                               maxlength="1"
+                        />
+                        <p th:errors="*{available}" class="text-danger"
+                           th:if="${#fields.hasErrors('available')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <button class="btn btn-lg move" type="submit">Add Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

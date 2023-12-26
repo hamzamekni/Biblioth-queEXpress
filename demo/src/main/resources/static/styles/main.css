@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+body {
+    justify-content: center;
+    min-height: 100vh ;
+    font-family: 'Poppins', sans-serif;
+    background-color: #e3f2fd;
+}
+.main {
+    height: 520px;
+    width: 650px;
+    background:#ffffff;
+    border-radius: 10%/10%;
+
+    transition: .8s ease-in-out;
+    margin-left: 420px;
+    margin-top: 20px;
+    box-shadow: 550px 750px 700px #0000;
+
+}

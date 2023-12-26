@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Bibliothèque EXpress</title>
+        <link th:href="@{/styles/main.css}" rel="stylesheet" >
+        <link th:href="@{/styles/updateuser.css}" rel="stylesheet" >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=]ost:wght@500&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    </head>
+</head>
+<body>
+<div th:include="components/navbar :: header" ></div>
+
+<div class="container">
+    <div class="row col-md-8 offset-md-2">
+        <div class="card">
+            <div th:if="${param.success}">
+                <div class="alert alert-info">You've Successfully Updated This User</div>
+            </div>
+            <div class="card-header">
+                <h2 class="text-center">Update User</h2>
+            </div>
+            <div class="card-body">
+                <form class="text-dark updateform" th:action="@{/updateUser}" th:object="${user}" method="post">
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabel text-dark justify-content-start m-0">User Id</label>
+                        <input class="form-control "
+                               id="id"
+                               name="id"
+                               placeholder="Id"
+                               th:field="*{id}"
+                               type="text"
+                               readonly
+                        />
+                        <p th:errors="*{id}" class="text-danger"
+                           th:if="${#fields.hasErrors('id')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabel text-dark justify-content-start m-0">First Name</label>
+                        <input class="form-control"
+                               id="firstName"
+                               name="firstName"
+                               placeholder="Enter First Name"
+                               th:field="*{firstName}"
+                               type="text"
+                        />
+                        <p th:errors="*{firstName}" class="text-danger"
+                           th:if="${#fields.hasErrors('firstName')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabel text-dark text justify-content-start m-0">Last Name</label>
+                        <input class="form-control"
+                               id="lastName"
+                               name="lastName"
+                               placeholder="Enter Last Name"
+                               th:field="*{lastName}"
+                               type="text"
+                        />
+                        <p th:errors="*{lastName}" class="text-danger"
+                           th:if="${#fields.hasErrors('lastName')}">
+                        </p>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label class="form-label updatelabel text-dark justify-content-start m-0">Email</label>
+                        <input class="form-control"
+                               id="email"
+                               name="email"
+                               placeholder="Enter New Author Name"
+                               th:field="*{email}"
+                               type="text"
+                        />
+                        <p th:errors="*{email}" class="text-danger"
+                           th:if="${#fields.hasErrors('email')}">
+                        </p>
+                    </div>
+
+                    <input type="submit" class="btn btn-lg move" value="Update"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
