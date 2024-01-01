@@ -34,5 +34,45 @@
         <h1 class="text-center"> Welcome to Bibliothèque EXpress</h1>
     </div>
 </div>
+<div>
+    <input type="text" id="messageText" />
+    <button type="button" onclick="sendMessage();">Send</button>
+</div>
+<div id="messages"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script type="text/javascript">
+    var stompClient = null;
+    var socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        console.log(frame);
+        stompClient.subscribe('/all/notifications', function(result) {
+            show(JSON.parse(result.body));
+        });
+    }, function(error) {
+        console.error('WebSocket connection error:', error);
+        // Handle reconnection logic, if applicable
+    });
+
+    function show(message){
+        var response = document.getElementById("messages");
+        var p = document.createElement('p');
+        p.innerHTML = "notification : " + message.text
+        response.appendChild(p);
+    }
+    function sendMessage(){
+        var text = document.getElementById("messageText").value;
+        stompClient.send("/app/application", {}, JSON.stringify({
+            'text': text
+        }), function (error) {
+            console.error('Error sending message:', error);
+            // Handle the error as needed
+        });
+    }
+    stompClient.debug = function(message) {
+        console.log(message);
+    };
+</script>
 </body>
 </html>

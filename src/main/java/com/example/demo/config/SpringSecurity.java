@@ -34,7 +34,7 @@ public class SpringSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests((authorize) ->
-                        authorize.requestMatchers("/register/**").permitAll()
+                        authorize.requestMatchers("/register/**","/ws/**").permitAll()
                                 .requestMatchers("/index").permitAll()
                                 .requestMatchers("/users").hasRole("ADMIN")
                                 .requestMatchers("/users/**").hasRole("ADMIN")
@@ -85,4 +85,6 @@ public class SpringSecurity {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
     }
+
+
 }
